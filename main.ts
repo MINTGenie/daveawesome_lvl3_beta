@@ -11,6 +11,7 @@ namespace SpriteKind {
     export const Weeds = SpriteKind.create()
     export const Jetpacks = SpriteKind.create()
     export const Guns = SpriteKind.create()
+    export const GunPresence = SpriteKind.create()
 }
 namespace StatusBarKind {
     export const jetpackStatus = StatusBarKind.create()
@@ -1197,6 +1198,23 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.yellowGems, function (sprite, ot
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Guns, function (sprite, otherSprite) {
     has_gun = true
+    theGun.destroy()
+    GunStatus = sprites.create(img`
+. . . . . . . . . . . . . . . . 
+. . 1 . . . . . . . . . . . . . 
+. 1 . . c b b b d d 1 1 1 1 d . 
+. . 1 c c b b b d d d d d d f . 
+. . b c c c c 1 1 1 1 1 1 . . . 
+. b c c f 1 . . . . . . . . . . 
+. b c f f . 1 . . . . . . . . . 
+. b c f . . . . . . . . . . . . 
+. c c c . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`, SpriteKind.GunPresence)
+    GunStatus.x = Dave.x + 50
+    GunStatus.y = 10
+    GunStatus.setFlag(SpriteFlag.RelativeToCamera, true)
 })
 function Fire_Bullet (direction: boolean) {
     allowFiring = false
@@ -1238,7 +1256,7 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava0, function (sp
         CurrentTime = game.runtime()
         info.changeLifeBy(-1)
         game.splash("Try Again")
-        destroyLevel(1)
+        destroyLevel(levelCount)
         respawn = true
     }
 })
@@ -1315,7 +1333,8 @@ function CreateDave () {
 }
 function create_Gun () {
     for (let value of tiles.getTilesByType(myTiles.tile15)) {
-        theGun = sprites.create(img`
+        if (!(has_gun)) {
+            theGun = sprites.create(img`
 . . . . . . . . . . . . . . . . 
 . . 1 . . . . . . . . . . . . . 
 . 1 . . c b b b d d 1 1 1 1 d . 
@@ -1328,6 +1347,8 @@ function create_Gun () {
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 `, SpriteKind.Guns)
+            tiles.placeOnTile(theGun, value)
+        }
         tiles.setTileAt(value, myTiles.tile0)
     }
 }
@@ -1492,13 +1513,14 @@ function create_seaweed () {
         )
     }
 }
-let theGun: Sprite = null
 let DaveY = 0
 let DaveX = 0
 let DaveMoved = false
 let firedNow = 0
 let bullet: Sprite = null
 let allowFiring = false
+let GunStatus: Sprite = null
+let theGun: Sprite = null
 let has_gun = false
 let MagicKey: Sprite = null
 let Blue_Gems: Sprite = null
