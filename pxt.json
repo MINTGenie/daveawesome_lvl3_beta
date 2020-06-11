@@ -6,7 +6,8 @@
         "controller": "*",
         "animation": "*",
         "settings-blocks": "github:microsoft/pxt-settings-blocks#v1.0.0",
-        "tilemaps": "github:microsoft/pxt-tilemaps#v1.7.1"
+        "tilemaps": "github:microsoft/pxt-tilemaps#v1.7.1",
+        "pxt-status-bar": "github:jwunderl/pxt-status-bar#v0.2.8"
     },
     "files": [
         "main.blocks",
