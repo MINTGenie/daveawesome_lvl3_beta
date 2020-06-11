@@ -815,6 +815,17 @@ controller.up.onEvent(ControllerButtonEvent.Repeated, function () {
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile8, function (sprite, location) {
     game.splash("No Key Yet??? Go Find it!!!")
 })
+scene.onOverlapTile(SpriteKind.Player, myTiles.tile9, function (sprite, location) {
+    game.splash("Your Score:", convertToText(info.score()))
+    if (levelCount <= MaxLevel) {
+        destroyLevel(levelCount)
+        Level_Loaded = false
+        levelCount += 1
+        createLevel(levelCount)
+    } else {
+        game.over(true)
+    }
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Weeds, function (sprite, otherSprite) {
     if (_1stOccurance == 0) {
         _1stOccurance = 1
@@ -828,85 +839,63 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Weeds, function (sprite, otherSp
 })
 function destroyLevel (LevelNum: number) {
     Dave.destroy()
-    for (let value5 of tiles.getTilesByType(
-        . . 9 9 9 9 9 9 9 9 9 . .
-        . . 9 9 9 9 9 9 1 9 9 . .
-        . 9 9 9 9 9 9 9 9 1 9 9 .
-        9 9 9 9 9 9 9 9 9 9 1 9 9
-        . 9 9 9 9 9 9 9 9 1 9 9 .
-        . . 9 9 9 9 9 9 1 1 9 . .
-        . . . 9 9 9 9 1 1 9 . . .
-        . . . . 9 9 9 1 9 . . . .
-        . . . . . 9 9 9 . . . . .
-        . . . . . . 9 . . . . . .
-    )) {
+    for (let value5 of tiles.getTilesByType(myTiles.tile4)) {
         Blue_Gems.destroy()
     }
-    for (let value6 of tiles.getTilesByType(
-        . . 5 5 5 5 5 5 5 5 5 . .
-        . . 5 5 5 5 5 5 1 5 5 . .
-        . 5 5 5 5 5 5 5 5 1 5 5 .
-        5 5 5 5 5 5 5 5 5 5 1 5 5
-        . 5 5 5 5 5 5 5 5 1 5 5 .
-        . . 5 5 5 5 5 5 1 1 5 . .
-        . . . 5 5 5 5 1 1 5 . . .
-        . . . . 5 5 5 1 5 . . . .
-        . . . . . 5 5 5 . . . . .
-        . . . . . . 5 . . . . . .
-    )) {
+    for (let value6 of tiles.getTilesByType(myTiles.tile1)) {
         Yellow_Gems.destroy()
     }
     if (LevelNum == 3) {
-        for (let value7 of tiles.getTilesByType(
-            . . . . 8 8 . . . . . . . . . .
-            . . . . 8 6 8 . . . . . . . . .
-            . . . . . 8 6 8 . . . . . . . .
-            . . . . . . 8 6 8 . . . . . . .
-            . . . . . . . 8 6 8 . . . . . .
-            . . . . . . . 8 6 8 . . . . . .
-            . . . . . . . . 8 6 8 . . . . .
-            . . . . . . . . 8 6 8 . . . . .
-            . . . . . . . . 8 6 6 8 . . . .
-            . . . . . . . . 8 6 6 8 . . . .
-            . . . . . . . . 8 6 6 8 . . . .
-            . . . . . . . . 8 7 6 8 . . . .
-            . . . . . . . . 8 7 6 8 . . . .
-            . . . . . . . 8 6 7 6 8 . . . .
-            . . . . . . . 8 7 7 6 8 . . . .
-            . . . . . . . 6 7 7 8 . . . . .
-            . . . . . . 6 7 6 7 6 . . . . .
-            . . . . . . 6 7 6 7 6 . . . . .
-            . . . . . 6 5 6 5 6 . . . . . .
-            . . . . 6 5 5 6 5 6 . . . . . .
-            . . . . 6 5 6 5 6 . . . . . . .
-            . . . 8 7 6 7 5 6 . . . . . . .
-            . . 8 7 6 7 7 6 . . . 8 . . . .
-            . . 6 7 6 7 8 . . . . 8 . . . .
-            . 8 7 6 6 6 8 . . . 8 8 . . . .
-            . 6 7 8 6 8 . . . . 8 6 . . . .
-            . 8 6 8 6 8 . . . 8 7 6 . . . .
-            8 6 8 6 6 8 . . 8 7 6 8 . . . .
-            8 6 8 6 8 . . 8 7 6 7 8 . . . .
-            8 6 8 6 8 . . 8 7 6 6 . . . . .
-            8 6 8 6 8 . 8 7 6 7 8 . . . . .
-            8 6 8 7 8 . 8 7 6 6 . . . . . .
-            8 7 8 7 8 8 7 6 7 8 . . . . . .
-            8 7 6 7 6 8 7 6 8 . 8 8 . . . .
-            8 7 6 7 7 8 6 6 8 . 6 7 8 . . .
-            8 7 6 6 7 6 6 6 8 . . 6 7 8 . .
-            . 6 7 6 7 7 8 6 6 8 . . 6 7 8 .
-            . 8 7 6 6 7 7 8 6 6 8 . 6 7 7 8
-            . 8 7 7 6 6 7 6 8 8 8 8 5 6 7 8
-            . . 8 7 6 6 7 7 6 8 8 8 5 6 5 6
-            . . 8 6 7 6 6 7 7 8 8 8 7 8 5 6
-            . . . 8 7 7 6 6 7 7 8 7 6 8 7 6
-            . . . . 8 7 7 6 6 7 7 6 8 6 6 8
-            . . . . . 8 7 7 6 6 7 6 8 6 6 8
-            . . . . . . 8 7 7 6 7 7 6 6 8 .
-            . . . . . . . 8 7 6 6 7 6 6 8 .
-            . . . . . . . . 8 7 6 7 6 8 . .
-            . . . . . . . . 8 7 6 8 8 . . .
-        )) {
+        for (let value7 of tiles.getTilesByType(img`
+. . . . 8 8 . . . . . . . . . . 
+. . . . 8 6 8 . . . . . . . . . 
+. . . . . 8 6 8 . . . . . . . . 
+. . . . . . 8 6 8 . . . . . . . 
+. . . . . . . 8 6 8 . . . . . . 
+. . . . . . . 8 6 8 . . . . . . 
+. . . . . . . . 8 6 8 . . . . . 
+. . . . . . . . 8 6 8 . . . . . 
+. . . . . . . . 8 6 6 8 . . . . 
+. . . . . . . . 8 6 6 8 . . . . 
+. . . . . . . . 8 6 6 8 . . . . 
+. . . . . . . . 8 7 6 8 . . . . 
+. . . . . . . . 8 7 6 8 . . . . 
+. . . . . . . 8 6 7 6 8 . . . . 
+. . . . . . . 8 7 7 6 8 . . . . 
+. . . . . . . 6 7 7 8 . . . . . 
+. . . . . . 6 7 6 7 6 . . . . . 
+. . . . . . 6 7 6 7 6 . . . . . 
+. . . . . 6 5 6 5 6 . . . . . . 
+. . . . 6 5 5 6 5 6 . . . . . . 
+. . . . 6 5 6 5 6 . . . . . . . 
+. . . 8 7 6 7 5 6 . . . . . . . 
+. . 8 7 6 7 7 6 . . . 8 . . . . 
+. . 6 7 6 7 8 . . . . 8 . . . . 
+. 8 7 6 6 6 8 . . . 8 8 . . . . 
+. 6 7 8 6 8 . . . . 8 6 . . . . 
+. 8 6 8 6 8 . . . 8 7 6 . . . . 
+8 6 8 6 6 8 . . 8 7 6 8 . . . . 
+8 6 8 6 8 . . 8 7 6 7 8 . . . . 
+8 6 8 6 8 . . 8 7 6 6 . . . . . 
+8 6 8 6 8 . 8 7 6 7 8 . . . . . 
+8 6 8 7 8 . 8 7 6 6 . . . . . . 
+8 7 8 7 8 8 7 6 7 8 . . . . . . 
+8 7 6 7 6 8 7 6 8 . 8 8 . . . . 
+8 7 6 7 7 8 6 6 8 . 6 7 8 . . . 
+8 7 6 6 7 6 6 6 8 . . 6 7 8 . . 
+. 6 7 6 7 7 8 6 6 8 . . 6 7 8 . 
+. 8 7 6 6 7 7 8 6 6 8 . 6 7 7 8 
+. 8 7 7 6 6 7 6 8 8 8 8 5 6 7 8 
+. . 8 7 6 6 7 7 6 8 8 8 5 6 5 6 
+. . 8 6 7 6 6 7 7 8 8 8 7 8 5 6 
+. . . 8 7 7 6 6 7 7 8 7 6 8 7 6 
+. . . . 8 7 7 6 6 7 7 6 8 6 6 8 
+. . . . . 8 7 7 6 6 7 6 8 6 6 8 
+. . . . . . 8 7 7 6 7 7 6 6 8 . 
+. . . . . . . 8 7 6 6 7 6 6 8 . 
+. . . . . . . . 8 7 6 7 6 8 . . 
+. . . . . . . . 8 7 6 8 8 . . . 
+`)) {
             Seaweed.destroy()
         }
     }
@@ -964,8 +953,67 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Keys, function (sprite, otherSpr
     for (let value2 of tiles.getTilesByType(myTiles.tile7)) {
         tiles.setTileAt(value2, myTiles.tile0)
     }
-    for (let value3 of tiles.getTilesByType(myTiles.tile8)) {
-        tiles.setTileAt(value3, myTiles.tile9)
+    for (let value of tiles.getTilesByType(myTiles.tile8)) {
+        tiles.setTileAt(value, myTiles.tile9)
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, img`
+. . . . 8 8 . . . . . . . . . . 
+. . . . 8 6 8 . . . . . . . . . 
+. . . . . 8 6 8 . . . . . . . . 
+. . . . . . 8 6 8 . . . . . . . 
+. . . . . . . 8 6 8 . . . . . . 
+. . . . . . . 8 6 8 . . . . . . 
+. . . . . . . . 8 6 8 . . . . . 
+. . . . . . . . 8 6 8 . . . . . 
+. . . . . . . . 8 6 6 8 . . . . 
+. . . . . . . . 8 6 6 8 . . . . 
+. . . . . . . . 8 6 6 8 . . . . 
+. . . . . . . . 8 7 6 8 . . . . 
+. . . . . . . . 8 7 6 8 . . . . 
+. . . . . . . 8 6 7 6 8 . . . . 
+. . . . . . . 8 7 7 6 8 . . . . 
+. . . . . . . 6 7 7 8 . . . . . 
+. . . . . . 6 7 6 7 6 . . . . . 
+. . . . . . 6 7 6 7 6 . . . . . 
+. . . . . 6 5 6 5 6 . . . . . . 
+. . . . 6 5 5 6 5 6 . . . . . . 
+. . . . 6 5 6 5 6 . . . . . . . 
+. . . 8 7 6 7 5 6 . . . . . . . 
+. . 8 7 6 7 7 6 . . . 8 . . . . 
+. . 6 7 6 7 8 . . . . 8 . . . . 
+. 8 7 6 6 6 8 . . . 8 8 . . . . 
+. 6 7 8 6 8 . . . . 8 6 . . . . 
+. 8 6 8 6 8 . . . 8 7 6 . . . . 
+8 6 8 6 6 8 . . 8 7 6 8 . . . . 
+8 6 8 6 8 . . 8 7 6 7 8 . . . . 
+8 6 8 6 8 . . 8 7 6 6 . . . . . 
+8 6 8 6 8 . 8 7 6 7 8 . . . . . 
+8 6 8 7 8 . 8 7 6 6 . . . . . . 
+8 7 8 7 8 8 7 6 7 8 . . . . . . 
+8 7 6 7 6 8 7 6 8 . 8 8 . . . . 
+8 7 6 7 7 8 6 6 8 . 6 7 8 . . . 
+8 7 6 6 7 6 6 6 8 . . 6 7 8 . . 
+. 6 7 6 7 7 8 6 6 8 . . 6 7 8 . 
+. 8 7 6 6 7 7 8 6 6 8 . 6 7 7 8 
+. 8 7 7 6 6 7 6 8 8 8 8 5 6 7 8 
+. . 8 7 6 6 7 7 6 8 8 8 5 6 5 6 
+. . 8 6 7 6 6 7 7 8 8 8 7 8 5 6 
+. . . 8 7 7 6 6 7 7 8 7 6 8 7 6 
+. . . . 8 7 7 6 6 7 7 6 8 6 6 8 
+. . . . . 8 7 7 6 6 7 6 8 6 6 8 
+. . . . . . 8 7 7 6 7 7 6 6 8 . 
+. . . . . . . 8 7 6 6 7 6 6 8 . 
+. . . . . . . . 8 7 6 7 6 8 . . 
+. . . . . . . . 8 7 6 8 8 . . . 
+`, function (sprite, location) {
+    if (_1stOccurance == 0 && DaveMoved) {
+        _1stOccurance = 1
+        CurrentTime = game.runtime()
+        info.changeLifeBy(-1)
+        game.splash("Try Again")
+        destroyLevel(levelCount)
+        respawn = true
     }
 })
 function CreateDave () {
@@ -1199,6 +1247,7 @@ let _1stOccurance = 0
 let Dave: Sprite = null
 let Yellow_Gems: Sprite = null
 let Level_Loaded = false
+let MaxLevel = 0
 let respawn = false
 let levelCount = 0
 let GRAVITY = 0
@@ -1209,7 +1258,7 @@ info.setScore(0)
 info.setLife(5)
 levelCount = 1
 respawn = false
-let MaxLevel = 3
+MaxLevel = 3
 let Lvl_1_Features = ["Yellow Gems", "Blue Gems"]
 let Lvl_2_Features = ["Yellow Gems", "Blue Gems", "Lava"]
 let Lvl_3_Features = ["Yellow Gems", "Blue Gems", "SeaWeed", "Gun", "Crown", "Wands", "JetPack", "Spider"]
