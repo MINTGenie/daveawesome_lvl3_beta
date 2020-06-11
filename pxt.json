@@ -1,11 +1,12 @@
 {
-    "name": "DaveAwesome_lvl3_beta_fix_worked",
+    "name": "DaveAwesome_lvl3_Jetpack",
     "description": "",
     "dependencies": {
         "device": "*",
         "controller": "*",
         "animation": "*",
-        "settings-blocks": "github:microsoft/pxt-settings-blocks#v1.0.0"
+        "settings-blocks": "github:microsoft/pxt-settings-blocks#v1.0.0",
+        "tilemaps": "github:microsoft/pxt-tilemaps#v1.7.1"
     },
     "files": [
         "main.blocks",
