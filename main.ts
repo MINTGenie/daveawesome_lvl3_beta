@@ -812,8 +812,8 @@ controller.up.onEvent(ControllerButtonEvent.Repeated, function () {
         Dave.vy = -170
     }
 })
-scene.onOverlapTile(SpriteKind.Player, myTiles.tile8, function (sprite, location) {
-    game.splash("No Key Yet??? Go Find it!!!")
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava0, function (sprite, location) {
+	
 })
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile9, function (sprite, location) {
     game.splash("Your Score:", convertToText(info.score()))
@@ -834,7 +834,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Weeds, function (sprite, otherSp
         game.splash("Try Again")
         destroyLevel(1)
         respawn = true
-        createLevel(levelCount)
     }
 })
 function destroyLevel (LevelNum: number) {
@@ -922,6 +921,19 @@ function createKey () {
 `, SpriteKind.Keys)
     tiles.placeOnRandomTile(MagicKey, myTiles.tile7)
 }
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava0, function (sprite, location) {
+    if (_1stOccurance == 0 && DaveMoved) {
+        _1stOccurance = 1
+        CurrentTime = game.runtime()
+        info.changeLifeBy(-1)
+        game.splash("Try Again")
+        destroyLevel(1)
+        respawn = true
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, myTiles.tile8, function (sprite, location) {
+    game.splash("No Key Yet??? Go Find it!!!")
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.BlueGems, function (sprite, otherSprite) {
     info.changeScoreBy(20)
     tiles.setTileAt(tiles.getTileLocation(otherSprite.x, otherSprite.y), myTiles.tile0)
@@ -955,65 +967,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Keys, function (sprite, otherSpr
     }
     for (let value of tiles.getTilesByType(myTiles.tile8)) {
         tiles.setTileAt(value, myTiles.tile9)
-    }
-})
-scene.onOverlapTile(SpriteKind.Player, img`
-. . . . 8 8 . . . . . . . . . . 
-. . . . 8 6 8 . . . . . . . . . 
-. . . . . 8 6 8 . . . . . . . . 
-. . . . . . 8 6 8 . . . . . . . 
-. . . . . . . 8 6 8 . . . . . . 
-. . . . . . . 8 6 8 . . . . . . 
-. . . . . . . . 8 6 8 . . . . . 
-. . . . . . . . 8 6 8 . . . . . 
-. . . . . . . . 8 6 6 8 . . . . 
-. . . . . . . . 8 6 6 8 . . . . 
-. . . . . . . . 8 6 6 8 . . . . 
-. . . . . . . . 8 7 6 8 . . . . 
-. . . . . . . . 8 7 6 8 . . . . 
-. . . . . . . 8 6 7 6 8 . . . . 
-. . . . . . . 8 7 7 6 8 . . . . 
-. . . . . . . 6 7 7 8 . . . . . 
-. . . . . . 6 7 6 7 6 . . . . . 
-. . . . . . 6 7 6 7 6 . . . . . 
-. . . . . 6 5 6 5 6 . . . . . . 
-. . . . 6 5 5 6 5 6 . . . . . . 
-. . . . 6 5 6 5 6 . . . . . . . 
-. . . 8 7 6 7 5 6 . . . . . . . 
-. . 8 7 6 7 7 6 . . . 8 . . . . 
-. . 6 7 6 7 8 . . . . 8 . . . . 
-. 8 7 6 6 6 8 . . . 8 8 . . . . 
-. 6 7 8 6 8 . . . . 8 6 . . . . 
-. 8 6 8 6 8 . . . 8 7 6 . . . . 
-8 6 8 6 6 8 . . 8 7 6 8 . . . . 
-8 6 8 6 8 . . 8 7 6 7 8 . . . . 
-8 6 8 6 8 . . 8 7 6 6 . . . . . 
-8 6 8 6 8 . 8 7 6 7 8 . . . . . 
-8 6 8 7 8 . 8 7 6 6 . . . . . . 
-8 7 8 7 8 8 7 6 7 8 . . . . . . 
-8 7 6 7 6 8 7 6 8 . 8 8 . . . . 
-8 7 6 7 7 8 6 6 8 . 6 7 8 . . . 
-8 7 6 6 7 6 6 6 8 . . 6 7 8 . . 
-. 6 7 6 7 7 8 6 6 8 . . 6 7 8 . 
-. 8 7 6 6 7 7 8 6 6 8 . 6 7 7 8 
-. 8 7 7 6 6 7 6 8 8 8 8 5 6 7 8 
-. . 8 7 6 6 7 7 6 8 8 8 5 6 5 6 
-. . 8 6 7 6 6 7 7 8 8 8 7 8 5 6 
-. . . 8 7 7 6 6 7 7 8 7 6 8 7 6 
-. . . . 8 7 7 6 6 7 7 6 8 6 6 8 
-. . . . . 8 7 7 6 6 7 6 8 6 6 8 
-. . . . . . 8 7 7 6 7 7 6 6 8 . 
-. . . . . . . 8 7 6 6 7 6 6 8 . 
-. . . . . . . . 8 7 6 7 6 8 . . 
-. . . . . . . . 8 7 6 8 8 . . . 
-`, function (sprite, location) {
-    if (_1stOccurance == 0 && DaveMoved) {
-        _1stOccurance = 1
-        CurrentTime = game.runtime()
-        info.changeLifeBy(-1)
-        game.splash("Try Again")
-        destroyLevel(levelCount)
-        respawn = true
     }
 })
 function CreateDave () {
@@ -1237,8 +1190,8 @@ function create_seaweed () {
 }
 let DaveY = 0
 let DaveX = 0
-let DaveMoved = false
 let HaveKey = 0
+let DaveMoved = false
 let MagicKey: Sprite = null
 let Seaweed: Sprite = null
 let Blue_Gems: Sprite = null
